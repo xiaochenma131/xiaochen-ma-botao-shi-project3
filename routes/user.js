@@ -106,13 +106,11 @@ router.post('/logout', function (req, res) {
 router.post('/favorite/:jobId', auth_middleware, function (req, res) {
     //postman test passed
     // add jobId to this user's favorite list
-    // 目前还只是记录jobId在favorites中， 我还在考虑要不要直接store job object
-    // Still working on this part
     const username = req.session.username;
     const jobId = req.params.jobId;
     return UserModel.findUserByUsernameAndUpdateFavorite(username, jobId)
         .then((userResponse) => {
-            return res.status(200).send(userResponse.favorites)
+            return res.status(200).send(userResponse)
         })
         .catch(error => res.status(422).send(error))
 });
@@ -120,7 +118,6 @@ router.post('/favorite/:jobId', auth_middleware, function (req, res) {
 router.get('/favorite', auth_middleware, function (req, res) {
     // postman test passed
     // get a list of jobId which are favorited by the current user
-    // still working on this part
     const username = req.session.username;
     return UserModel.findUserByUsername(username)
         .then((userResponse) => {
@@ -129,5 +126,16 @@ router.get('/favorite', auth_middleware, function (req, res) {
         .catch(error => res.status(422).send(error))
 });
 
-// one more function to do : router.delete('/favorite/:jobId')
+router.delete('/favorite/:jobId', auth_middleware, function (req, res) {
+    // postman test passed
+    // delete the jobId from the favorite list of the current user
+    const username = req.session.username;
+    const jobId = req.params.jobId;
+    return UserModel.findUserByUsernameAndDeleteFavorite(username, jobId)
+        .then((userResponse) => {
+            return res.status(200).send(userResponse)
+        })
+        .catch(error => res.status(422).send(error))
+});
+
 module.exports = router;
