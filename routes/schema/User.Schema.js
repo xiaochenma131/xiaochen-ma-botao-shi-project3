@@ -9,7 +9,8 @@ exports.UserSchema = new Schema({
     },
     favorites: {
         type: Array,
-    }
-}, {
-    collection: 'users'
-})
+    },
+    created: {
+        type: Array,
+    },
+}, { collection: 'users' });

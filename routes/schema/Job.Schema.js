@@ -1,16 +1,15 @@
 const Schema = require('mongoose').Schema;
 
 exports.JobSchema = new Schema({
-    jobId: String,
-    tilte: String,
+    title: String,
     company: String,
     location: String,
     description: String,
-    employerEmail: String,
-    link: String,
-    postingDate: {
+    email: String,
+    website: String,
+    date: {
         type: Date,
-        default: Date.now
+        default: Date.now,
     },
-    user: String, // the username that created this job
+    // this explicitly declares what collection we're using
 }, { collection: 'jobs' });

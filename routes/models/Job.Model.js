@@ -1,5 +1,5 @@
-const mongoose = require("mongoose");
-const JobSchema = require('../schema/Job.Schema').JobSchema;
+const mongoose = require("mongoose")
+const JobSchema = require('../schema/Job.Schema').JobSchema
 
 const JobModel = mongoose.model("Job", JobSchema);
 
@@ -7,38 +7,37 @@ function insertJob(job) {
     return JobModel.create(job);
 }
 
+function getAllJobs() {
+    return JobModel.find().exec();
+}
+
+function findJobByTitle(title) {
+    return JobModel.find({ title: { $regex: title, $options: 'i' } }).exec();
+}
+
+function getJobById(id) {
+    return JobModel.findById(id).exec();
+}
+
 function deleteJobByJobId(jobId) {
     return JobModel.deleteOne({ jobId: jobId });
 }
 
-function findJobById(jobId) {
-    return JobModel.findOneAndDelete({ jobId: jobId }).exec();
+function updateJobById(id, job) {
+    return JobModel.findByIdAndUpdate(id, job);
 }
 
-function findJobByTitle(title) {
-    return JobModel.find({ title: title }).exec();
-}
-
-function findJobByUser(user) {
-    return JobModel.find({
-        user: user
-    }).exec();
-}
-
-function getAllJob() {
-    return JobModel.find().exec();
-}
-
-function updateJobByJobId(jobId, job) {
-    return JobModel.findOneAndUpdate({ jobId: jobId }, job).exec();
+// This api is just for Favorites, again, we have no idea why this is needed but this is required to make Favorites.jsx work...
+function getAllJobsByIds(idArray) {
+    return JobModel.find({ '_id': { $in: idArray } }).exec();
 }
 
 module.exports = {
-    insertJob,
-    deleteJobByJobId,
-    findJobById,
+    getAllJobs,
     findJobByTitle,
-    findJobByUser,
-    getAllJob,
-    updateJobByJobId
+    getJobById,
+    insertJob,
+    updateJobById,
+    deleteJobByJobId,
+    getAllJobsByIds,
 };

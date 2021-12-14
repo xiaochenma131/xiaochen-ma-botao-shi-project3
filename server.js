@@ -11,7 +11,8 @@ const MongoStore = require('connect-mongo');
 
 //Setup MongoDB Connection
 //const mongoString = 'mongodb://127.0.0.1/jobSearchApplication'
-const mongoString = 'mongodb+srv://Xiaochen_Ma:Mxc96301@cluster0.zdupk.mongodb.net/jobSearchApplication?retryWrites=true&w=majority'
+const mongoString = process.env.MONGODB_URI || 'mongodb://127.0.0.1/jobSearchApplication';
+//'mongodb+srv://Xiaochen_Ma:Mxc96301@cluster0.zdupk.mongodb.net/jobSearchApplication?retryWrites=true&w=majority'
 mongoose.connect(mongoString, { useNewUrlParser: true })
 
 const mongoDB = mongoose.connection;
